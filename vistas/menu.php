@@ -33,15 +33,17 @@
          ?>
   
 		  
-		  
+		  <!--
 
            <li><a href="usuarios.php"><span class="glyphicon glyphicon-user"></span> Administrar usuarios</a>
             </li>
-			        </li>
+			        </li>-->
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list-alt"></span> Configuraciones <span class="caret"></span></a>
             <ul class="dropdown-menu">
+            <li><a href="usuarios.php">Administrar usuarios</a></li>
               <li><a href="roles.php">Roles</a></li>
+              
               
             </ul>
           </li>
@@ -50,10 +52,10 @@
 			
 			          </li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list-alt"></span> Configurar Proyectos<span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list-alt"></span> Desarrollo<span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="proyectos.php">Proyectos</a></li>
-			  <li><a href="roles.php">Lineas Bases</a></li>
+			  <li><a href="lineasBases.php">Lineas Bases</a></li>
 			  <li><a href="roles.php">Items</a></li>
               
             </ul>
@@ -63,10 +65,9 @@
           ?>
 
 
-           <li><a href=""><span class="glyphicon glyphicon-user"></span> Proyectos</a>
+           <li><a href=""><span class="glyphicon glyphicon-user"></span>Lista de Proyectos</a>
           </li>
-          <li><a href=""><span class="glyphicon-list-alt"></span> Incidencias</a>
-          </li>
+         
           
           <li class="dropdown" >
             <a href="#" style="color: red"  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Usuario: <?php echo $_SESSION['usuario']; ?>  <span class="caret"></span></a>

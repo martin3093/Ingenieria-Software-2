@@ -5,6 +5,6 @@
 
 	$obj= new Proyectos();
 
-	
-	echo $obj->eliminaProyecto($_POST['idproyecto']);
+	echo json_encode($obj->obtenDatosProyecto($_POST['idproyecto']));
+
  ?>

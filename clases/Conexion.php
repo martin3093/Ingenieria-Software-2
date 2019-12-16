@@ -33,7 +33,7 @@ $database = 'ProjectManager';
 $conexion = pg_connect ("host=$host port=$port user=$user password=$pass dbname=$database");
 			
 			
-			
+				
 			/*$conexion=pg_connect(
 				"host=$this->host,
 				port=$this->port,

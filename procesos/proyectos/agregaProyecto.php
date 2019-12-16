@@ -1,17 +1,22 @@
 <?php 
-	session_start();
+
+session_start();
 	require_once "../../clases/Conexion.php";
 	require_once "../../clases/Proyectos.php";
-	$fecha=date("Y-m-d");
 
-	$rol=$_POST['categoria'];
+	$obj= new Proyectos();
+
 
 	$datos=array(
-		$rol);
+			$_POST['nombre'],
+			$_POST['fecha_inicio'],
+			$_POST['fecha_fin'],
+			$_POST['estado']
 
-	$obj= new Proyecto();
+				);
 
 	echo $obj->agregaProyecto($datos);
 
-
+	
+	
  ?>

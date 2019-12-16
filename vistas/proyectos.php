@@ -8,71 +8,86 @@ if(isset($_SESSION['usuario'])){
 	<!DOCTYPE html>
 	<html>
 	<head>
-		<title>proyectos</title>
+		<title>Proyectos</title>
 		<?php require_once "menu.php"; ?>
 	</head>
 	<body>
+
 		<div class="container">
 			<h1>Proyectos</h1>
 			<div class="row">
 				<div class="col-sm-4">
-					<form id="frmProyectos">
+
+	<!--frmCategorias nombre del formulario
+	boton agregar su id es btnAgregaCategoria -->
+					<form id="frmProyecto">1
 						<label>Nombre</label>
-						<input type="text" class="form-control input-sm" id="nombre" name="nombre">
+						<input type="text" class="form-control input-sm" name="nombre" id="nombre">
+						<p></p>
 						<label>Fecha Inicio</label>
-						<input type="text" class="form-control input-sm" id="fecha_inicio" name="fecha_inicio">
+						<input type="text" class="form-control input-sm" name="fecha_inicio" id="fecha_inicio">
+						<p></p>
 						<label>Fecha Fin</label>
-						<input type="text" class="form-control input-sm" id="fecha_fin" name="fecha_fin">
+						<input type="text" class="form-control input-sm" name="fecha_fin" id="fecha_fin">
+						<p></p>
 						<label>Estado</label>
-						
 						<select  type="text" class="form-control input-sm" id="estado" name="estado">
 						<option value="Activo" >Activo</option> 
 						<option value="Pendiente">Pendiente</option> 
 						<option value="Inactivo">Inactivo</option>
+						<option value="Terminado">Terminado</option>
 						</select>
-					<!--	<input type="text" class="form-control input-sm"  id="estado" name="estado"> -->
-						
-						
 						<p></p>
-						<span class="btn btn-primary" id="btnAgregarProyecto">Agregar</span>
+						<span class="btn btn-primary" id="btnAgregaProyecto">Agregar</span>2
 					</form>
+
+
 				</div>
-				<div class="col-sm-8">
-					<div id="tablaProyectosLoad"></div>
+				<div class="col-sm-6">
+					<div id="tablaProyectoLoad"></div>3
+					<!--nombre de la tabla del ABM-->
 				</div>
 			</div>
 		</div>
 
+
+
+
 		<!-- Button trigger modal -->
 
-
 		<!-- Modal -->
-		<div class="modal fade" id="abremodalClientesUpdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal fade" id="actualizaProyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel">Actualizar cliente</h4>
+						<h4 class="modal-title" id="myModalLabel">Actualiza Proyecto</h4>
 					</div>
 					<div class="modal-body">
-						<form id="frmClientesU">
-							<input type="text" hidden="" id="idclienteU" name="idclienteU">
+						<form id="frmProyectoU">
+							<input type="text" hidden="" id="idproyectoU" name="idproyectoU">
 							<label>Nombre</label>
-							<input type="text" class="form-control input-sm" id="nombreU" name="nombreU">
-							<label>Apellido</label>
-							<input type="text" class="form-control input-sm" id="apellidosU" name="apellidosU">
-							<label>Direccion</label>
-							<input type="text" class="form-control input-sm" id="direccionU" name="direccionU">
-							<label>Email</label>
-							<input type="text" class="form-control input-sm" id="emailU" name="emailU">
-							<label>Telefono</label>
-							<input type="text" class="form-control input-sm" id="telefonoU" name="telefonoU">
-							<label>RFC</label>
-							<input type="text" class="form-control input-sm" id="rfcU" name="rfcU">
+						<input type="text" class="form-control input-sm" name="nombreU" id="nombreU">
+						<p></p>
+						<label>Fecha Inicio</label>
+						<input type="text" class="form-control input-sm" name="fecha_inicioU" id="fecha_inicioU">
+						<p></p>
+						<label>Fecha Fin</label>
+						<input type="text" class="form-control input-sm" name="fecha_finU" id="fecha_finU">
+						<p></p>
+						<label>Estado</label>
+						<select  type="text" class="form-control input-sm" id="estadoU" name="estadoU">
+						<option value="Activo" >Activo</option> 
+						<option value="Pendiente">Pendiente</option> 
+						<option value="Inactivo">Inactivo</option>
+						</select>
+						<p></p>
 						</form>
+
+
 					</div>
 					<div class="modal-footer">
-						<button id="btnAgregarClienteU" type="button" class="btn btn-primary" data-dismiss="modal">Actualizar</button>
+						<button type="button" id="btnActualizaProyecto" class="btn btn-warning" data-dismiss="modal">Guardar</button>
 
 					</div>
 				</div>
@@ -81,37 +96,93 @@ if(isset($_SESSION['usuario'])){
 
 	</body>
 	</html>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			$('#tablaProyectoLoad').load("proyecto/tablaProyectos.php");
+
+			$('#btnAgregaProyecto').click(function(){
+
+				vacios=validarFormVacio('frmProyecto'); 
+
+				if(vacios > 0){
+					alertify.alert("Debes llenar todos los campos!!");
+					return false;
+				}
+
+				datos=$('#frmProyecto').serialize();
+				$.ajax({
+					type:"POST",
+					data:datos,
+					url:"../procesos/proyectos/agregaProyecto.php",
+					success:function(r){
+						if(r!=1){
+					//esta linea nos permite limpiar el formulario al insetar un registro
+					$('#frmProyecto')[0].reset();
+
+					$('#tablaProyectoLoad').load("proyecto/tablaProyectos.php");
+					alertify.success("Proyecto agregado con exito :D");
+				}else{
+					alertify.error("No se pudo agregar Proyecto");
+				}
+			}
+		});
+			});
+		});
+	</script>
 
 	<script type="text/javascript">
-		function agregaDatosProyecto(idproyecto){
+		$(document).ready(function(){
+			$('#btnActualizaProyecto').click(function(){
+
+				datos=$('#frmProyectoU').serialize();
+				$.ajax({
+					type:"POST",
+					data:datos,
+					url:"../procesos/proyectos/actualizaProyecto.php",
+					success:function(r){
+						if(r!=1){
+							$('#tablaProyectoLoad').load("proyecto/tablaProyectos.php");
+							alertify.success("Actualizado con exito :)");
+						}else{
+							alertify.error("no se pudo actaulizar :(");
+						}
+					}
+				});
+			});
+		});
+	</script>
+
+	<script type="text/javascript">
+				function agregaDatosProyecto(idproyecto){
 
 			$.ajax({
 				type:"POST",
-				data:"idcliente=" + idcliente,
-				url:"../procesos/clientes/obtenDatosCliente.php",
+				data:"idproyecto=" + idproyecto,
+				url:"../procesos/proyectos/obtenDatosProyecto.php",
 				success:function(r){
 					dato=jQuery.parseJSON(r);
-					$('#idclienteU').val(dato['id_cliente']);
-					$('#nombreU').val(dato['nombre']);
-					$('#apellidosU').val(dato['apellido']);
-					$('#direccionU').val(dato['direccion']);
-					$('#emailU').val(dato['email']);
-					$('#telefonoU').val(dato['telefono']);
-					$('#rfcU').val(dato['rfc']);
+					$('#idproyectoU').val(dato['id_proyecto']);
+					$('#nombreU').val(dato['nombre_proyecto']);
+					$('#fecha_inicioU').val(dato['fecha_inicio']);
+					$('#fecha_finU').val(dato['fecha_fin']);
+					$('#estadoU').val(dato['estado']);
+				
 
 				}
 			});
 		}
 
-		function eliminarCliente(idcliente){
-			alertify.confirm('¿Desea eliminar este cliente?', function(){ 
+		function eliminarProyecto(idproyecto){
+			alertify.confirm('¿Desea eliminar éste Proyecto?', function(){ 
 				$.ajax({
 					type:"POST",
-					data:"idcliente=" + idcliente,
-					url:"../procesos/clientes/eliminarCliente.php",
+					data:"idproyecto=" + idproyecto,
+					url:"../procesos/proyectos/eliminarProyecto.php",
 					success:function(r){
-						if(r==1){
-							$('#tablaClientesLoad').load("clientes/tablaClientes.php");
+						if(r!=1){
+							$('#tablaProyectoLoad').load("proyecto/tablaProyectos.php");
 							alertify.success("Eliminado con exito!!");
 						}else{
 							alertify.error("No se pudo eliminar :(");
@@ -123,67 +194,6 @@ if(isset($_SESSION['usuario'])){
 			});
 		}
 	</script>
-
-	<script type="text/javascript">
-		$(document).ready(function(){
-
-			$('#tablaClientesLoad').load("clientes/tablaClientes.php");
-
-			$('#btnAgregarCliente').click(function(){
-
-				vacios=validarFormVacio('frmClientes');
-
-				if(vacios > 0){
-					alertify.alert("Debes llenar todos los campos!!");
-					return false;
-				}
-
-				datos=$('#frmClientes').serialize();
-
-				$.ajax({
-					type:"POST",
-					data:datos,
-					url:"../procesos/clientes/agregaCliente.php",
-					success:function(r){
-
-						if(r==1){
-							$('#frmClientes')[0].reset();
-							$('#tablaClientesLoad').load("clientes/tablaClientes.php");
-							alertify.success("Cliente agregado con exito :D");
-						}else{
-							alertify.error("No se pudo agregar cliente");
-						}
-					}
-				});
-			});
-		});
-	</script>
-
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$('#btnAgregarClienteU').click(function(){
-				datos=$('#frmClientesU').serialize();
-
-				$.ajax({
-					type:"POST",
-					data:datos,
-					url:"../procesos/clientes/actualizaCliente.php",
-					success:function(r){
-
-						if(r==1){
-							$('#frmClientes')[0].reset();
-							$('#tablaClientesLoad').load("clientes/tablaClientes.php");
-							alertify.success("Cliente actualizado con exito :D");
-						}else{
-							alertify.error("No se pudo actualizar cliente");
-						}
-					}
-				});
-			})
-		})
-	</script>
-
-
 	<?php 
 }else{
 	header("location:../index.php");
